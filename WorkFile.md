@@ -1,0 +1,114 @@
+# project_oop_cpp  
+Doctor Recommendation System is the official project title. **Doctor Hunter** is our team’s chosen name for the system.
+
+# Doctor Hunter  
+This project suggests suitable doctors based on patient complaints using structured symptom-to-doctor mapping.
+
+# 🛠️ Work Instructions
+
+Each team member must create their own `.md` file in this workfile folder.  
+In your Markdown file, please share:
+
+- Your ideas and contributions to the project
+- Code snippets you've written or improved
+- Explanations of your logic and design choices
+- Any challenges or suggestions for the team
+
+This will help us stay organized and showcase everyone's work clearly.
+
+---
+
+# 📄 Sample Code
+
+Below is a sample code snippet provided by Copilot.  
+Please review it, and share your thoughts or improvements in your own `.md` file and in our Messenger group.
+
+````c++
+
+// Doctor class to hold details
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+// Doctor class to hold details
+class Doctor {
+private:
+    string name, department, contact, location;
+    double rating;
+
+public:
+    Doctor(string n, string d, string c, double r, string l)
+        : name(n), department(d), contact(c), rating(r), location(l) {}
+
+    void display() const {
+        cout << "→ " << name << " (" << department << ") — Rating: " << rating
+             << " — Contact: " << contact << " — Location: " << location << "\n";
+    }
+
+    double getRating() const { return rating; }
+};
+
+// DoctorHunter class to manage recommendations
+class DoctorHunter {
+private:
+    unordered_map<string, vector<Doctor>> problemMap;
+
+public:
+    DoctorHunter() {
+        // Hardcoded doctor database
+        problemMap["chest pain"] = {
+            Doctor("Dr. Ayesha Rahman", "Cardiology", "017XXXXXXXX", 4.8, "Dhaka"),
+            Doctor("Dr. Tanvir Islam", "Pulmonology", "018XXXXXXXX", 4.6, "Rajshahi")
+        };
+        problemMap["skin rash"] = {
+            Doctor("Dr. Farhana Kabir", "Dermatology", "019XXXXXXXX", 4.9, "Chattogram"),
+            Doctor("Dr. Imran Hossain", "Dermatology", "017YYYYYYYY", 4.7, "Sylhet")
+        };
+        problemMap["headache"] = {
+            Doctor("Dr. Mahmud Hasan", "Neurology", "016XXXXXXXX", 4.7, "Sylhet")
+        };
+        problemMap["fever"] = {
+            Doctor("Dr. Nusrat Jahan", "General Medicine", "015XXXXXXXX", 4.5, "Khulna")
+        };
+    }
+
+    void recommend(const string& problem) {
+        auto it = problemMap.find(problem);
+        if (it != problemMap.end()) {
+            cout << "\nRecommended Doctors for '" << problem << "':\n";
+            vector<Doctor> doctors = it->second;
+
+            // Sort by rating (optional)
+            sort(doctors.begin(), doctors.end(), [](const Doctor& a, const Doctor& b) {
+                return a.getRating() > b.getRating();
+            });
+
+            for (const auto& doc : doctors) {
+                doc.display();
+            }
+        } else {
+            cout << "Sorry, no doctors found for that problem.\n";
+        }
+    }
+};
+
+int main() {
+    DoctorHunter hunter;
+    string input;
+
+    cout << "🩺 Welcome to Doctor Hunter!\n";
+    cout << "Please enter your medical problem (e.g., chest pain, skin rash): ";
+    getline(cin, input);
+
+    hunter.recommend(input);
+
+    return 0;
+}
+
+`````
+    return 0;
+}
