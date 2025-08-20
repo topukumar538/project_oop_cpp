@@ -109,6 +109,9 @@ int main() {
     return 0;
 }
 
-`````
-    return 0;
 }
+````
+
+# 📚 Learning Goals  
+We need to understand each header file and data structure used in this code. Once we grasp how they work, we’ll be able to confidently update and expand the project.
+
