@@ -225,7 +225,7 @@ fever,Dr. Nusrat Jahan,General Medicine,015XXXXXXXX,4.5,Khulna
 
 `````
 
-#doctors.csv file then add the data then runthe programme
+# doctors.csv file then add the data then run the programme
 
 # 📚 Learning Goals  
 We need to understand each header file and data structure used in this code. Once we grasp how they work, we’ll be able to confidently update and expand the project.
