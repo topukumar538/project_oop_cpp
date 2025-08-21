@@ -28,12 +28,15 @@ This will help us stay organized and showcase everyone's work clearly.
 #include <vector>
 #include <string>
 #include <algorithm>
-#include <cctype>
+#include <limits>
 
 using namespace std;
 
-//─── Doctor struct ──────────────────────────────────────────────────────────────
-struct Doctor {
+// ===============================
+// Doctor class (simple version)
+// ===============================
+class Doctor {
+private:
     string problem;
     string name;
     string department;
@@ -41,6 +44,15 @@ struct Doctor {
     double rating;
     string location;
 
+public:
+    // Default constructor
+    Doctor() : rating(0.0) {}
+
+    // Parameterized constructor
+    Doctor(string prob, string n, string dept, string cont, double r, string loc)
+        : problem(prob), name(n), department(dept), contact(cont), rating(r), location(loc) {}
+
+    // Display doctor details
     void display() const {
         cout << "-----------------------------------------\n";
         cout << "Name      : " << name       << "\n";
@@ -50,199 +62,195 @@ struct Doctor {
         cout << "Location  : " << location   << "\n";
     }
 
+    // Convert to CSV format
     string toCSV() const {
         ostringstream oss;
-        oss << problem << ","
-            << name    << ","
-            << department << ","
-            << contact << ","
-            << rating  << ","
-            << location;
+        oss << problem << "," << name << "," << department << ","
+            << contact << "," << rating << "," << location;
         return oss.str();
     }
+
+    // Getters
+    string getProblem() const { return problem; }
+    string getName() const { return name; }
+    double getRating() const { return rating; }
 };
 
-//─── Load & Save Helpers ────────────────────────────────────────────────────────
+// ===============================
+// Load doctors from CSV file
+// ===============================
 vector<Doctor> loadDoctors(const string& filename) {
-    vector<Doctor> docs;
+    vector<Doctor> doctors;
     ifstream file(filename);
-    if (!file.is_open()) return docs;
+    if (!file.is_open()) return doctors;
 
     string line;
-    getline(file, line);  // skip header
+    getline(file, line); // skip header
+
     while (getline(file, line)) {
         stringstream ss(line);
-        Doctor d;
-        string ratingStr;
-
-        getline(ss, d.problem, ',');
-        getline(ss, d.name, ',');
-        getline(ss, d.department, ',');
-        getline(ss, d.contact, ',');
+        string prob, name, dept, contact, ratingStr, loc;
+        getline(ss, prob, ',');
+        getline(ss, name, ',');
+        getline(ss, dept, ',');
+        getline(ss, contact, ',');
         getline(ss, ratingStr, ',');
-        getline(ss, d.location, ',');
+        getline(ss, loc, ',');
 
-        d.rating = stod(ratingStr);
-        docs.push_back(d);
+        double rating = stod(ratingStr);
+        doctors.emplace_back(prob, name, dept, contact, rating, loc);
     }
-    return docs;
+    return doctors;
 }
 
-void saveDoctors(const string& filename, const vector<Doctor>& docs) {
+// ===============================
+// Save doctors to CSV file
+// ===============================
+void saveDoctors(const string& filename, const vector<Doctor>& doctors) {
     ofstream file(filename);
     file << "Problem,Name,Department,Contact,Rating,Location\n";
-    for (const auto& d : docs) {
+    for (const auto& d : doctors) {
         file << d.toCSV() << "\n";
     }
 }
 
-//─── Admin Functions ───────────────────────────────────────────────────────────
-void showAll(const vector<Doctor>& docs) {
-    if (docs.empty()) {
-        cout << "No doctors in list.\n";
+// ===============================
+// Show all doctors
+// ===============================
+void showAll(const vector<Doctor>& doctors) {
+    if (doctors.empty()) {
+        cout << "No doctors available.\n";
         return;
     }
-    cout << "\n=== All Registered Doctors ===\n";
-    for (const auto& d : docs)
+    for (const auto& d : doctors) {
         d.display();
+    }
 }
 
-void addDoctor(vector<Doctor>& docs) {
-    Doctor d;
+// ===============================
+// Add a new doctor
+// ===============================
+void addDoctor(vector<Doctor>& doctors) {
+    string prob, name, dept, contact, loc;
+    double rating;
+
     cout << "Enter problem keyword : ";
-    getline(cin, d.problem);
-    cout << "Enter full name      : ";
-    getline(cin, d.name);
-    cout << "Enter department     : ";
-    getline(cin, d.department);
-    cout << "Enter contact number : ";
-    getline(cin, d.contact);
-    cout << "Enter rating (0–5)   : ";
-    cin  >> d.rating;
-    cin.ignore();  // consume newline
-    cout << "Enter location       : ";
-    getline(cin, d.location);
+    getline(cin, prob);
+    cout << "Enter full name       : ";
+    getline(cin, name);
+    cout << "Enter department      : ";
+    getline(cin, dept);
+    cout << "Enter contact number  : ";
+    getline(cin, contact);
 
-    docs.push_back(d);
-    cout << "✅ Doctor added.\n";
+    cout << "Enter rating (0–5)    : ";
+    while (!(cin >> rating) || rating < 0 || rating > 5) {
+        cout << "Invalid rating. Enter again (0–5): ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    cin.ignore();
+
+    cout << "Enter location        : ";
+    getline(cin, loc);
+
+    doctors.emplace_back(prob, name, dept, contact, rating, loc);
+    cout << "Doctor added successfully.\n";
 }
 
-void removeDoctor(vector<Doctor>& docs) {
+// ===============================
+// Remove a doctor by name
+// ===============================
+void removeDoctor(vector<Doctor>& doctors) {
     cout << "Enter exact doctor name to remove: ";
     string target;
     getline(cin, target);
 
-    auto it = remove_if(docs.begin(), docs.end(),
-        [&](const Doctor& d){ return d.name == target; });
+    auto it = remove_if(doctors.begin(), doctors.end(),
+                        [&](const Doctor& d) { return d.getName() == target; });
 
-    if (it == docs.end()) {
-        cout << "⚠️  No doctor named \"" << target << "\" found.\n";
+    if (it == doctors.end()) {
+        cout << "No doctor named \"" << target << "\" found.\n";
     } else {
-        docs.erase(it, docs.end());
-        cout << "✅ Doctor \"" << target << "\" removed.\n";
+        doctors.erase(it, doctors.end());
+        cout << "Doctor \"" << target << "\" removed.\n";
     }
 }
 
-//─── User Recommendation ───────────────────────────────────────────────────────
-void recommend(const vector<Doctor>& docs) {
-    cout << "\nDescribe your medical problem (e.g., skin, heart, headache): ";
+// ===============================
+// Recommend doctors based on problem
+// ===============================
+void recommend(const vector<Doctor>& doctors) {
+    cout << "Describe your medical problem: ";
     string complaint;
     getline(cin, complaint);
 
-    // lowercase for substring matching
-    transform(complaint.begin(), complaint.end(), complaint.begin(),
-              [](unsigned char c){ return tolower(c); });
-
     vector<Doctor> matches;
-    for (const auto& d : docs) {
-        string key = d.problem;
-        transform(key.begin(), key.end(), key.begin(),
-                  [](unsigned char c){ return tolower(c); });
-
-        if (complaint.find(key) != string::npos) {
+    for (const auto& d : doctors) {
+        string key = d.getProblem();
+        string cLower = complaint, kLower = key;
+        transform(cLower.begin(), cLower.end(), cLower.begin(), ::tolower);
+        transform(kLower.begin(), kLower.end(), kLower.begin(), ::tolower);
+        if (cLower.find(kLower) != string::npos) {
             matches.push_back(d);
         }
     }
 
     if (matches.empty()) {
-        cout << "⚠️  No doctors found for \"" << complaint << "\".\n";
+        cout << "No doctors found for \"" << complaint << "\".\n";
         return;
     }
 
     sort(matches.begin(), matches.end(),
-         [](const Doctor& a, const Doctor& b){
-             return a.rating > b.rating;
-         });
+         [](const Doctor& a, const Doctor& b) { return a.getRating() > b.getRating(); });
 
     cout << "\n=== Recommended Doctors ===\n";
-    for (const auto& d : matches)
+    for (const auto& d : matches) {
         d.display();
+    }
 }
 
-//─── main() ─────────────────────────────────────────────────────────────────────
+// ===============================
+// Main program
+// ===============================
 int main() {
-    const string CSV = "doctors.csv";
-    vector<Doctor> docs = loadDoctors(CSV);
+    const string CSV_FILE = "doctors.csv";
+    vector<Doctor> doctors = loadDoctors(CSV_FILE);
 
-    // Select mode
     cout << "Mode [user/admin]: ";
     string mode;
     getline(cin, mode);
-
-    // Trim whitespace
-    auto notSpace = [](char ch){ return !isspace(static_cast<unsigned char>(ch)); };
-    mode.erase(mode.begin(),
-               find_if(mode.begin(), mode.end(), notSpace));
-    mode.erase(find_if(mode.rbegin(), mode.rend(), notSpace).base(),
-               mode.end());
-
-    // To lowercase
-    transform(mode.begin(), mode.end(), mode.begin(),
-              [](unsigned char c){ return tolower(c); });
+    transform(mode.begin(), mode.end(), mode.begin(), ::tolower);
 
     if (mode == "admin") {
         cout << "Enter admin password: ";
-        string pwd;
-        getline(cin, pwd);
-
-        if (pwd != "123") {
-            cout << "❌ Incorrect password. Exiting.\n";
+        string password;
+        getline(cin, password);
+        if (password != "123") {
+            cout << "Incorrect password. Exiting.\n";
             return 0;
         }
 
-        // Admin command loop
         while (true) {
-            cout << "\nCommands: show | add | remove | exit\n> ";
+            cout << "\nCommands: show | add | remove | save | exit\n> ";
             string cmd;
             getline(cin, cmd);
+            transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
 
-            if (cmd == "show") {
-                showAll(docs);
-            }
-            else if (cmd == "add") {
-                addDoctor(docs);
-                saveDoctors(CSV, docs);
-            }
-            else if (cmd == "remove") {
-                removeDoctor(docs);
-                saveDoctors(CSV, docs);
-            }
-            else if (cmd == "exit") {
-                cout << "🔒 Admin session ended.\n";
-                break;
-            }
-            else {
-                cout << "❌ Unknown command.\n";
-            }
+            if (cmd == "show") showAll(doctors);
+            else if (cmd == "add") addDoctor(doctors);
+            else if (cmd == "remove") removeDoctor(doctors);
+            else if (cmd == "save") saveDoctors(CSV_FILE, doctors);
+            else if (cmd == "exit") { saveDoctors(CSV_FILE, doctors); break; }
+            else cout << "Unknown command.\n";
         }
-    }
-    else {
-        // User mode
-        recommend(docs);
+    } else {
+        recommend(doctors);
     }
 
     return 0;
 }
+
 
 `````
 
