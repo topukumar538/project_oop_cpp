@@ -139,4 +139,14 @@ int main() {
 }
 ````
 
+````csv
+Problem,Name,Department,Contact,Rating,Location
+chest pain,Dr. Ayesha Rahman,Cardiology,017XXXXXXXX,4.800000,Dhaka
+chest pain,Dr. Tanvir Islam,Pulmonology,018XXXXXXXX,4.600000,Rajshahi
+skin rash,Dr. Imran Hossain,Dermatology,017YYYYYYYY,4.700000,Sylhet
+headache,Dr. Mahmud Hasan,Neurology,016XXXXXXXX,4.700000,Sylhet
+fever,Dr. Nusrat Jahan,General Medicine,015XXXXXXXX,4.500000,Khulna
+
+````
+
 # This code take admin as input then enter password 123 then the programme can show full list of doctors and add and remove doctor from the list. You need to understand the code then implement the code using hafsa mam instructions.
