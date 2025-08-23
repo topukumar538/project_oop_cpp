@@ -1,4 +1,4 @@
-C```
+```C
 #include<iostream>
 #include<string>
 #include<fstream>
