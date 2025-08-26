@@ -25,10 +25,7 @@
 ### **Code:**
 
 ```C++
-/* Save this file as main.cpp and compile with a C++17 (or later) compiler:
-   g++ -std=c++17 main.cpp -o doctor_reco
-   or on Windows (MinGW): g++ -std=c++17 main.cpp -o doctor_reco.exe
-*/
+
 #include <iostream>   // for input/output
 #include <vector>     // for std::vector container
 #include <fstream>    // for file reading/writing
