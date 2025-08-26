@@ -315,7 +315,7 @@ int main() {
 
 ```
 
-## 3. Program Functionality
+## 3. Program Functionality & UML
 
 The Doctor Recommendation System is a console-based C++ application with:
 
