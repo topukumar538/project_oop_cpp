@@ -3,50 +3,62 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 #include <algorithm>
-#include <iomanip> // for setw
-
 using namespace std;
 
-// Abstract base
+//abstract class
 class Recommendation {
 public:
     virtual void display() = 0;
 };
 
-// =====================
-// Person Class
-// =====================
+// person class
+
 class Person : public Recommendation {
 protected:
     string name;
     string contact;
+
 public:
     Person(string n = "", string c = "") : name(n), contact(c) {}
 
     void display() override {
-        cout << "Name     : " << name << "\n"
-             << "Contact  : " << contact << endl;
+        cout << "Name       : " << name << endl
+             << "Contract   : " << contact << endl;
     }
 
-    string getName() const { return name; }
-    string getContact() const { return contact; }
+    string getName() { return name; }
+    string getContact() { return contact; }
 };
 
-// =====================
+// Intermediate Classes for Diamond Problem
+
+class Contactable : virtual public Person {
+public:
+    Contactable(string n = "", string c = "") : Person(n, c) {}
+};
+
+class Identifiable : virtual public Person {
+public:
+    Identifiable(string n = "", string c = "") : Person(n, c) {}
+};
+
 // Doctor Class
-// =====================
-class Doctor : public Person {
+
+class Doctor : public Contactable, public Identifiable {
     string problem;
     string department;
     string location;
     double rating;
 
-    friend void updateRating(Doctor &d, double newRating, string newLoc);
+    friend string getSpecialty(const Doctor& d);
+    friend string getDepartment(const Doctor& d);
 
 public:
     Doctor(string prob = "", string n = "", string dept = "", string c = "", double r = 0.0, string loc = "")
-        : Person(n, c), problem(prob), department(dept), location(loc), rating(r) {}
+        : Contactable(n, c),
+            problem(prob), department(dept), location(loc), rating(r) {}
 
     void display() override {
         cout << "=============================================\n";
@@ -60,27 +72,22 @@ public:
         cout << "=============================================\n";
     }
 
-    string getSpecialty() const { return problem; }
-    string getDepartment() const { return department; }
-    string getLocation() const { return location; }
-    double getRating() const { return rating; }
+    string getLocation() { return location; }
+    double getRating() { return rating; }
+
 };
 
-void updateRating(Doctor &d, double newRating, string newLoc) {
-    while (true) {
-        if (newRating >= 0 && newRating <= 5) {
-            d.rating = newRating;
-            d.location = newLoc;
-            break;
-        }
-        cout << "\nEnter rating 0 to 5: ";
-        cin >> newRating;
-    }
+string getSpecialty(const Doctor &d) {
+    return d.problem;
 }
 
-// =====================
+string getDepartment(const Doctor &d) {
+    return d.department;
+}
+
+
 // Generic Template Functions
-// =====================
+
 template <typename T>
 void showAll(vector<T> &items) {
     for (auto &item : items) {
@@ -93,28 +100,22 @@ void addItem(vector<T> &items, const T &item) {
     items.push_back(item);
 }
 
-template <class T>
-T* findByName(vector<T> &items, string &name) {
-    for (auto &item : items) {
-        if (item.getName() == name) return &item;
-    }
-    return nullptr;
-}
-
 // Helper: lowercase conversion
-string toLower(string s) {
-    transform(s.begin(), s.end(), s.begin(), ::tolower);
+string toLower( string s) {
+    transform(s.begin(), s.end(), s.begin(), ::tolower );
     return s;
 }
 
-// =====================
-// Data Loader Class
-// =====================
 class DataLoader {
 public:
     void loadDoctors(string file, vector<Doctor> &doctors) {
         ifstream fin(file);
-        if (!fin) throw runtime_error("File not Found");
+
+        
+        if (!fin.is_open()) {
+            throw runtime_error("Could not open file: " + file);
+        }
+
 
         string line;
         getline(fin, line); // skip header
@@ -128,7 +129,7 @@ public:
             getline(ss, dept, ',');
             getline(ss, c, ',');
             getline(ss, rstr, ',');
-            getline(ss, loc); // FIXED: read till end
+            getline(ss, loc);
 
             double r = stod(rstr);
             addItem(doctors, Doctor(prob, n, dept, c, r, loc));
@@ -136,26 +137,22 @@ public:
     }
 };
 
-// =====================
-// Save Doctors
-// =====================
+
 void saveDoctors(const string &file, vector<Doctor> &doctors) {
     ofstream fout(file);
     fout << "Problem,Name,Department,Contact,Rating,Location\n";
     for (auto &d : doctors) {
-        fout << d.getSpecialty() << ","
+        fout << getSpecialty(d) << ","
              << d.getName() << ","
-             << d.getDepartment() << ","
+             << getDepartment(d) << ","
              << d.getContact() << ","
              << d.getRating() << ","
              << d.getLocation() << "\n";
     }
-    cout << "Data saved to " << file << "\n";
+    cout << "Data saved to " << file << endl;
 }
 
-// =====================
-// Admin Class
-// =====================
+
 class Admin : public Recommendation {
     vector<Doctor> &doctors;
     string csvFile;
@@ -166,14 +163,14 @@ public:
 
     void admin1() {
         while (true) {
-            cout << "\n[Admin Menu] show | add | save | back\n> ";
-            string cmd;
-            getline(cin, cmd);
-            cmd = toLower(cmd);
+            cout << "\n[Admin Menu] 1.show | 2.add | 3.save | 4.exit\n> ";
+            int cmd;
+            cin >> cmd;
+            cin.ignore();
 
-            if (cmd == "show") {
+            if (cmd == 1) {
                 showAll(doctors);
-            } else if (cmd == "add") {
+            } else if (cmd == 2) {
                 string prob, n, dept, c, loc; double r;
                 cout << "Problem: ";
                 getline(cin, prob);
@@ -190,52 +187,54 @@ public:
                 getline(cin, loc);
 
                 addItem(doctors, Doctor(prob, n, dept, c, r, loc));
-
-            } else if (cmd == "save") {
+            } else if (cmd == 3) {
                 saveDoctors(csvFile, doctors);
-            } else if (cmd == "back") {
+            } else if (cmd == 4) {
                 break;
             } else {
                 cout << "Unknown command.\n";
             }
+
         }
     }
+
 };
 
-// =====================
 // User Class
-// =====================
+
+
 class User : public Recommendation {
     vector<Doctor> &doctors;
 public:
     User(vector<Doctor> &d) : doctors(d) {}
-
     void display() override {}
 
     void user1() {
-        cout << "Enter problem/specialty: ";
-        string s; getline(cin, s);
+        cout << "Enter problem: ";
+        string s;
+        getline(cin, s);
         s = toLower(s);
         bool found = false;
 
         for (auto &d : doctors) {
-            if (toLower(d.getSpecialty()) == s) {
+        if (toLower(getSpecialty(d)) == s) {
                 d.display();
                 found = true;
             }
         }
+
         if (!found) {
-            cout << "No doctors found for that specialty.\n";
+            cout << "No doctors found for that problem.\n";
         }
     }
 };
 
-// =====================
-// Main
-// =====================
+
+
 int main() {
     vector<Doctor> doctors;
     string CSV = "doctors.csv";
+
     try {
         DataLoader d;
         d.loadDoctors(CSV, doctors);
@@ -243,29 +242,29 @@ int main() {
         cout << "Doctors data not loaded.\n";
     }
 
-    cout << "Mode [user/admin]: ";
-    string mode;
-    getline(cin, mode);
-    mode = toLower(mode);
+    cout << "Mode [1.user/2.admin]: ";
+    int mode;
+    cin >> mode;
+    cin.ignore();
 
-    if (mode == "admin") {
-        cout << "Enter admin password: ";
-        string password;
-        getline(cin, password);
-        if (password != "123") {
-            cout << "Incorrect password. Exiting.\n";
+    if (mode == 2) {
+        cout << "Enter admin pin: ";
+        int pin;
+        cin >> pin;
+        if (pin != 123) {
+            cout << "Incorrect pin. Exiting.\n";
             return 0;
         }
         Admin admin(doctors, CSV);
         admin.admin1();
-    }
-    else if (mode == "user") {
+    } else if (mode == 1) {
         User user(doctors);
         user.user1();
     }
     else {
         cout << "Invalid mode.\n";
     }
-    cout << "Goodbye!\n";
+    cout << "Goodbye! THANK YOU for using our system....\n";
 }
+
 ````
