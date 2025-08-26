@@ -8,9 +8,10 @@
 | Topu  | 2310003    |
 | Saba | 2310013     |
 | Tahsin | 2310021     |
+---
 
 </div>
----
+
 
 <div align="center">
 <h2>1. Project Title</h2>
