@@ -1,16 +1,16 @@
 ```C
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <iomanip>
+#include <iostream>   // for input/output
+#include <vector>     // for std::vector container
+#include <fstream>    // for file reading/writing
+#include <sstream>    // for parsing strings (CSV lines)
+#include <algorithm>  // for transform (lowercase conversion)
+#include <iomanip>    // for formatting output (setprecision)
 using namespace std;
 
-// Abstract base
+// Abstract base class (forces child classes to implement display())
 class Recommendation {
 public:
-    virtual void display() = 0;
+    virtual void display() = 0;  // pure virtual function
 };
 
 // =====================
@@ -18,16 +18,19 @@ public:
 // =====================
 class Person : public Recommendation {
 protected:
-    string name;
-    string contact;
+    string name;    // name of the person
+    string contact; // contact info
 public:
+    // Constructor with default empty values
     Person(string n = "", string c = "") : name(n), contact(c) {}
 
+    // Override display() to show person info
     void display() override {
         cout << "Name     : " << name << "\n"
              << "Contact  : " << contact << endl;
     }
 
+    // Getters
     string getName() const { return name; }
     string getContact() const { return contact; }
 };
@@ -35,12 +38,12 @@ public:
 // =====================
 // Intermediate Classes for Diamond Problem
 // =====================
-class Contactable : virtual public Person {
+class Contactable : virtual public Person {  // virtual to avoid diamond problem
 public:
     Contactable(string n = "", string c = "") : Person(n, c) {}
 };
 
-class Identifiable : virtual public Person {
+class Identifiable : virtual public Person { // also virtual
 public:
     Identifiable(string n = "", string c = "") : Person(n, c) {}
 };
@@ -49,24 +52,27 @@ public:
 // Doctor Class
 // =====================
 class Doctor : public Contactable, public Identifiable {
-    string problem;
-    string department;
-    string location;
-    double rating;
+    string problem;     // specialty/problem they treat
+    string department;  // department (e.g. Cardiology)
+    string location;    // hospital/clinic location
+    double rating;      // doctor rating
 
+    // Friend functions can access private members
     friend string getSpecialty(const Doctor &d);
     friend string getDepartment(const Doctor &d);
 
 public:
+    // Constructor for Doctor
     Doctor(string prob = "", string n = "", string dept = "", string c = "", double r = 0.0, string loc = "")
         : Person(n, c), Contactable(n, c), Identifiable(n, c),
           problem(prob), department(dept), location(loc), rating(r) {}
 
+    // Override display() to show doctor info
     void display() override {
         cout << "=============================================\n";
         cout << "Doctor Information\n";
         cout << "---------------------------------------------\n";
-        Person::display();
+        Person::display(); // call base class display for name + contact
         cout << "Problem  : " << problem << "\n"
              << "Dept     : " << department << "\n"
              << "Location : " << location << "\n"
@@ -74,6 +80,7 @@ public:
         cout << "=============================================\n";
     }
 
+    // Getters
     string getLocation() const { return location; }
     double getRating() const { return rating; }
 };
@@ -82,29 +89,29 @@ public:
 // Friend function definitions
 // =====================
 string getSpecialty(const Doctor &d) {
-    return d.problem;
+    return d.problem;  // returns doctor's specialty/problem
 }
 
 string getDepartment(const Doctor &d) {
-    return d.department;
+    return d.department; // returns doctor's department
 }
 
 // =====================
 // Generic Template Functions
 // =====================
 template <typename T>
-void showAll(vector<T> &items) {
+void showAll(vector<T> &items) {   // display all items in vector
     for (auto &item : items) {
-        item.display();
+        item.display(); // call display() of each object
     }
 }
 
 template <class T>
-void addItem(vector<T> &items, const T &item) {
+void addItem(vector<T> &items, const T &item) {  // add new item into vector
     items.push_back(item);
 }
 
-// Helper: lowercase conversion
+// Helper: convert string to lowercase
 string toLower(string s) {
     transform(s.begin(), s.end(), s.begin(), ::tolower);
     return s;
@@ -115,26 +122,27 @@ string toLower(string s) {
 // =====================
 class DataLoader {
 public:
+    // Load doctors from CSV file into vector
     void loadDoctors(string file, vector<Doctor> &doctors) {
-        ifstream fin(file);
+        ifstream fin(file);                // open file
         if (!fin) throw runtime_error("File Not Found");
 
         string line;
-        getline(fin, line); // skip header
+        getline(fin, line);                // skip header line
 
-        while (getline(fin, line)) {
-            if (line.empty()) continue;
-            stringstream ss(line);
+        while (getline(fin, line)) {       // read each line
+            if (line.empty()) continue;    // skip empty
+            stringstream ss(line);         // parse line
             string prob, n, dept, c, rstr, loc;
-            getline(ss, prob, ',');
-            getline(ss, n, ',');
-            getline(ss, dept, ',');
-            getline(ss, c, ',');
-            getline(ss, rstr, ',');
-            getline(ss, loc);
+            getline(ss, prob, ',');        // read problem
+            getline(ss, n, ',');           // read name
+            getline(ss, dept, ',');        // read department
+            getline(ss, c, ',');           // read contact
+            getline(ss, rstr, ',');        // read rating string
+            getline(ss, loc);              // read location
 
-            double r = stod(rstr);
-            addItem(doctors, Doctor(prob, n, dept, c, r, loc));
+            double r = stod(rstr);         // convert rating to double
+            addItem(doctors, Doctor(prob, n, dept, c, r, loc)); // add to vector
         }
     }
 };
@@ -143,9 +151,9 @@ public:
 // Save Doctors
 // =====================
 void saveDoctors(const string &file, vector<Doctor> &doctors) {
-    ofstream fout(file);
-    fout << "Problem,Name,Department,Contact,Rating,Location\n";
-    for (auto &d : doctors) {
+    ofstream fout(file); // open file for writing
+    fout << "Problem,Name,Department,Contact,Rating,Location\n"; // write header
+    for (auto &d : doctors) {  // write each doctor
         fout << getSpecialty(d) << ","
              << d.getName() << ","
              << getDepartment(d) << ","
@@ -160,8 +168,8 @@ void saveDoctors(const string &file, vector<Doctor> &doctors) {
 // Admin Class
 // =====================
 class Admin : public Recommendation {
-    vector<Doctor> &doctors;
-    string csvFile;
+    vector<Doctor> &doctors; // reference to doctors list
+    string csvFile;          // file path
 public:
     Admin(vector<Doctor> &d, string file) : doctors(d), csvFile(file) {}
 
@@ -171,12 +179,13 @@ public:
         while (true) {
             cout << "\n[Admin Menu] 1.show | 2.add | 3.save | 4.exit\n> ";
             int cmd;
-            cin >> cmd;
-            cin.ignore();
+            cin >> cmd;     // get admin command
+            cin.ignore();   // ignore leftover newline
 
             if (cmd == 1) {
-                showAll(doctors);
+                showAll(doctors);  // show all doctors
             } else if (cmd == 2) {
+                // add new doctor manually
                 string prob, n, dept, c, loc; double r;
                 cout << "Problem: ";
                 getline(cin, prob);
@@ -195,9 +204,9 @@ public:
                 addItem(doctors, Doctor(prob, n, dept, c, r, loc));
 
             } else if (cmd == 3) {
-                saveDoctors(csvFile, doctors);
+                saveDoctors(csvFile, doctors);  // save doctors to file
             } else if (cmd == 4) {
-                break;
+                break; // exit admin menu
             } else {
                 cout << "Unknown command.\n";
             }
@@ -209,7 +218,7 @@ public:
 // User Class
 // =====================
 class User : public Recommendation {
-    vector<Doctor> &doctors;
+    vector<Doctor> &doctors; // reference to doctors list
 public:
     User(vector<Doctor> &d) : doctors(d) {}
 
@@ -217,11 +226,11 @@ public:
 
     void user1() {
         cout << "Enter problem: ";
-        string s; getline(cin, s);
-        s = toLower(s);
+        string s; getline(cin, s);       // get input problem
+        s = toLower(s);                  // convert to lowercase
         bool found = false;
 
-        for (auto &d : doctors) {
+        for (auto &d : doctors) {        // search for doctor with same specialty
             if (toLower(getSpecialty(d)) == s) {
                 d.display();
                 found = true;
@@ -237,40 +246,41 @@ public:
 // Main
 // =====================
 int main() {
-    vector<Doctor> doctors;
-    string CSV = "D:/Tahsin/Documents/1st year even/Project/info.csv";
+    vector<Doctor> doctors;  // container for doctors
+    string CSV = "D:/Tahsin/Documents/1st year even/Project/info.csv"; // CSV file path
     try {
         DataLoader d;
-        d.loadDoctors(CSV, doctors);
+        d.loadDoctors(CSV, doctors);   // load doctors from CSV
     } catch (...) {
         cout << "Doctors data not loaded.\n";
     }
 
     cout << "Mode [1.user/2.admin]: ";
     int mode;
-    cin >> mode;
+    cin >> mode;    // get mode
     cin.ignore();
 
     if (mode == 2) {
         cout << "Enter admin pin: ";
         int pin;
         cin >> pin;
-        if (pin != 123) {
+        if (pin != 123) {  // check admin pin
             cout << "Incorrect pin. Exiting.\n";
             return 0;
         }
         Admin admin(doctors, CSV);
-        admin.admin1();
+        admin.admin1();    // run admin menu
     }
     else if (mode == 1) {
         User user(doctors);
-        user.user1();
+        user.user1();      // run user search
     }
     else {
         cout << "Invalid mode.\n";
     }
     cout << "Goodbye! THANK YOU for using our system....\n";
 }
+
 
 ```
 
