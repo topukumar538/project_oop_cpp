@@ -324,6 +324,11 @@ The Doctor Recommendation System is a console-based C++ application with:
 * File handling via CSV for persistent storage.
 * Menu-driven interface for user/admin.
 
+<div align="center">
+<img width="771" height="852" alt="1" src="https://github.com/user-attachments/assets/bb7a2a2b-0243-4214-bde8-7ac7f0a3271e" />
+<img width="710" height="791" alt="2" src="https://github.com/user-attachments/assets/d8246864-6738-4deb-b7ac-30eb4448681f" />
+</div>
+
 ## 4. Implementation of OOP Concepts with Examples
 
 ### 4.1 Encapsulation
