@@ -1,3 +1,5 @@
+<div align="center">
+   
 ## **Lab Name : Object Oriented Programming Sessional**
 ## **Submission Date : August 27, 2025**
 ### **Group Members :**
@@ -7,14 +9,16 @@
 | Saba | 2310013     |
 | Tahsin | 2310021     |
 
+</div>
 ---
 
+<div align="center">
 <h2>1. Project Title</h2>
 <p><strong>Doctor Recommendation System</strong></p>
 
 <h2>2. Project Summary</h2>
 <p>A C++-based console application that allows users to search for doctors by their specialty, while admins can view, add, and save doctor details to a CSV file. The system demonstrates object-oriented principles such as inheritance, polymorphism, abstraction, and file handling. It supports both <strong>user mode</strong> (doctor search by problem) and <strong>admin mode</strong> (manage doctor data).</p>
-
+</div>
 
 
 ### **Code:**
