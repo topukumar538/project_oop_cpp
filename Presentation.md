@@ -1,31 +1,36 @@
 <div align="center">
-   
+
+# Doctor Recommendation System
+
 ## **Lab Name : Object Oriented Programming Sessional**
+
 ## **Submission Date : August 27, 2025**
+
 ### **Group Members :**
-| Name             | Roll        |
-|------------------|-------------|
-| Topu  | 2310003    |
-| Saba | 2310013     |
-| Tahsin | 2310021     |
+
+| Name   | Roll    |
+| ------ | ------- |
+| Topu   | 2310003 |
+| Saba   | 2310013 |
+| Tahsin | 2310021 |
+
+</div>
+
 ---
-
-</div>
-
-
 <div align="center">
-<h2>1. Project Title</h2>
-<p><strong>Doctor Recommendation System</strong></p>
 
-<h2>2. Project Summary</h2>
-<p>A C++-based console application that allows users to search for doctors by their specialty, while admins can view, add, and save doctor details to a CSV file. The system demonstrates object-oriented principles such as inheritance, polymorphism, abstraction, and file handling. It supports both <strong>user mode</strong> (doctor search by problem) and <strong>admin mode</strong> (manage doctor data).</p>
+## 1. Project Title
+
+# Doctor Recommendation System
+
+## 2. Project Summary
+
+A C++ console application that allows users to search for doctors by specialty, and enables admins to view, add, and save doctor details in a CSV file. Demonstrates object-oriented programming concepts like inheritance, polymorphism, abstraction, and file handling.
 </div>
-
 
 ### **Code:**
 
 ```C++
-
 #include <iostream>   // for input/output
 #include <vector>     // for std::vector container
 #include <fstream>    // for file reading/writing
@@ -307,163 +312,165 @@ int main() {
     }
     cout << "Goodbye! THANK YOU for using our system....\n";
 }
+
 ```
 
-<h2>3. Program Functionality</h2>
-<p>The <strong>Doctor Recommendation System</strong> is a console-based C++ application. Its key functionalities include:</p>
-<ul>
-    <li>Loading doctor data from a CSV file.</li>
-    <li>Allowing users to search doctors by problem/specialty (case-insensitive).</li>
-    <li>Allowing admins (with a pin) to show all doctors, add doctors, and save the data back to the CSV file.</li>
-    <li>Using OOP principles: inheritance, polymorphism (via virtual functions), abstraction, encapsulation, friend functions, templates, and virtual inheritance to address the diamond problem.</li>
-</ul>
+## 3. Program Functionality
 
-<h2>4. Implementation of OOP Concepts</h2>
+The Doctor Recommendation System is a console-based C++ application with:
 
-<h3>4.1 Encapsulation</h3>
-<p><strong>Definition</strong>: Bundles data and methods into classes, restricting access using private/protected specifiers and exposing functionality via public methods.</p>
-<p><strong>Implementation</strong>:</p>
-<ul>
-    <li><strong><code>Person</code> Class</strong>: Protected data (<code>name</code>, <code>contact</code>) with public methods (<code>display()</code>, <code>getName()</code>, <code>getContact()</code>). Location: Lines ~20–45.</li>
-    <li><strong><code>Doctor</code> Class</strong>: Private data (<code>problem</code>, <code>department</code>, <code>location</code>, <code>rating</code>) with public methods (<code>display()</code>, <code>getLocation()</code>, <code>getRating()</code>). Location: Lines ~70–115.</li>
-</ul>
+* User search for doctors by problem/specialty.
+* Admin can view all doctors, add new ones, and save to CSV.
+* File handling via CSV for persistent storage.
+* Menu-driven interface for user/admin.
 
-<h3>4.2 Inheritance</h3>
-<p><strong>Definition</strong>: Derived classes inherit properties/methods from a base class for code reuse.</p>
-<p><strong>Implementation</strong>:</p>
-<ul>
-    <li><strong>Base Class</strong>: <code>Person</code> (Lines ~20–45).</li>
-    <li><strong>Intermediate Classes</strong>: <code>Contactable</code>, <code>Identifiable</code> (Lines ~48–60).</li>
-    <li><strong>Derived Class</strong>: <code>Doctor</code> inherits from <code>Contactable</code> and <code>Identifiable</code> (Lines ~70–115).</li>
-</ul>
+## 4. Implementation of OOP Concepts with Examples
 
-<h3>4.3 Polymorphism</h3>
-<p><strong>Definition</strong>: Enables methods to behave differently based on the object. Includes compile-time (overloading) and run-time (virtual functions).</p>
-<p><strong>Implementation</strong>:</p>
-<ul>
-    <li><strong>Run-Time (Virtual Functions)</strong>: <code>Recommendation::display()</code> is pure virtual and implemented by derived classes (<code>Person</code>, <code>Doctor</code>, <code>Admin</code>, <code>User</code>). Location: Lines ~10–95.</li>
-</ul>
+### 4.1 Encapsulation
 
-<h3>4.4 Abstraction</h3>
-<p><strong>Definition</strong>: Hides implementation details, exposing only essential functionality via abstract classes.</p>
-<p><strong>Implementation</strong>:</p>
-<ul>
-    <li><strong>Abstract Class</strong>: <code>Recommendation</code> with pure virtual function <code>display()</code> (Lines ~10–15).</li>
-</ul>
+Definition: Bundles data and methods inside a class, restricting access via private/protected members.
+Example:
 
-<h3>4.5 Diamond Problem</h3>
-<p><strong>Definition</strong>: Occurs in multiple inheritance with a shared base class, resolved using virtual inheritance.</p>
-<p><strong>Implementation</strong>:</p>
-<ul>
-    <li><strong>Setup</strong>: <code>Contactable</code> and <code>Identifiable</code> are both virtually derived from <code>Person</code> (Lines ~48–60), and <code>Doctor</code> inherits from both (Lines ~70–75).</li>
-</ul>
+```C++
+class Person {
+private:
+    string name;
+    string contact;
+public:
+    void setName(string n) { name = n; }
+    string getName() { return name; }
+    void setContact(string c) { contact = c; }
+    string getContact() { return contact; }
+};
+```
 
-<h3>4.6 Error Handling</h3>
-<p><strong>Definition</strong>: Uses try–catch blocks to manage exceptions robustly.</p>
-<p><strong>Implementation</strong>:</p>
-<ul>
-    <li><strong><code>DataLoader::loadDoctors()</code></strong>: Throws <code>runtime_error("File Not Found")</code> if CSV missing (Lines ~150–170).</li>
-    <li><strong><code>main()</code></strong>: Wraps loading in a try–catch and prints a fallback message (Lines ~300–325).</li>
-</ul>
+### 4.2 Inheritance
 
-<h3>4.7 File Handling (CSV)</h3>
-<p><strong>Definition</strong>: Reads/writes data to CSV for persistent storage.</p>
-<p><strong>Implementation</strong>:</p>
-<ul>
-    <li><strong>Reading</strong>: <code>DataLoader::loadDoctors()</code> parses CSV using <code>ifstream</code> and <code>stringstream</code> (Lines ~150–180).</li>
-    <li><strong>Writing</strong>: <code>saveDoctors()</code> writes header and rows to CSV (Lines ~190–210).</li>
-</ul>
+Definition: A class can inherit properties and methods from a base class.
+Example:
 
-<h3>4.8 Constructor & Destructor</h3>
-<p><strong>Definition</strong>: Constructors initialize objects; destructors clean up resources.</p>
-<p><strong>Implementation</strong>:</p>
-<ul>
-    <li><strong>Constructors</strong>: <code>Person</code>, <code>Contactable</code>, <code>Identifiable</code>, <code>Doctor</code> provide constructors to initialize members (Lines ~20–90).</li>
-</ul>
+```C++
+class Contactable : virtual public Person {};
+class Identifiable : virtual public Person {};
+class Doctor : public Contactable, public Identifiable {};
+```
 
-<h3>4.9 Friend Function</h3>
-<p><strong>Definition</strong>: Grants access to private/protected members.</p>
-<p><strong>Implementation</strong>:</p>
-<ul>
-    <li><strong>Friend functions</strong>: <code>getSpecialty()</code>, <code>getDepartment()</code> are friends of <code>Doctor</code> (Lines ~75–95).</li>
-</ul>
+### 4.3 Polymorphism
 
-<h3>4.10 Generic Function/Template</h3>
-<p><strong>Definition</strong>: Template functions provide reusable behavior for different types.</p>
-<p><strong>Implementation</strong>:</p>
-<ul>
-    <li><strong>Templates</strong>: <code>showAll()</code> and <code>addItem()</code> are template functions used to operate on vectors of objects (Lines ~120–140).</li>
-</ul>
+Definition: Ability of functions to behave differently based on object type (compile-time and run-time).
+Example:
 
-<h2>5. Summary Table</h2>
-<table>
-    <tr>
-        <th>Topic</th>
-        <th>Key Locations (Lines)</th>
-        <th>Key Classes/Functions</th>
-    </tr>
-    <tr>
-        <td>Encapsulation</td>
-        <td>20–45, 70–115</td>
-        <td><code>Person</code>, <code>Doctor</code></td>
-    </tr>
-    <tr>
-        <td>Inheritance</td>
-        <td>48–75</td>
-        <td><code>Contactable</code>, <code>Identifiable</code>, <code>Doctor</code></td>
-    </tr>
-    <tr>
-        <td>Polymorphism (Run-Time)</td>
-        <td>10–95</td>
-        <td><code>Recommendation::display()</code>, <code>Person::display()</code>, <code>Doctor::display()</code></td>
-    </tr>
-    <tr>
-        <td>Abstraction</td>
-        <td>10–15</td>
-        <td><code>Recommendation</code></td>
-    </tr>
-    <tr>
-        <td>Diamond Problem</td>
-        <td>48–75</td>
-        <td><code>Contactable</code>, <code>Identifiable</code>, <code>Doctor</code></td>
-    </tr>
-    <tr>
-        <td>Error Handling</td>
-        <td>150–180, 300–325</td>
-        <td><code>DataLoader::loadDoctors()</code>, <code>main()</code></td>
-    </tr>
-    <tr>
-        <td>File Handling</td>
-        <td>150–210</td>
-        <td><code>loadDoctors()</code>, <code>saveDoctors()</code></td>
-    </tr>
-    <tr>
-        <td>Constructor & Destructor</td>
-        <td>20–90</td>
-        <td>Constructors of classes</td>
-    </tr>
-    <tr>
-        <td>Friend Function</td>
-        <td>75–95</td>
-        <td><code>getSpecialty()</code>, <code>getDepartment()</code></td>
-    </tr>
-    <tr>
-        <td>Generic Function</td>
-        <td>120–140</td>
-        <td><code>showAll()</code>, <code>addItem()</code></td>
-    </tr>
-</table>
+```C++
+class Recommendation {
+public:
+    virtual void display() { cout << "Base display"; }
+};
+class Doctor : public Recommendation {
+public:
+    void display() override { cout << "Doctor display"; }
+};
+```
 
-<h2>6. Conclusion</h2>
-<p>The <strong>Doctor Recommendation System</strong> demonstrates core OOP concepts clearly and provides a simple, extensible console application for managing and searching doctor records. To run the project:</p>
-<ol>
-    <li>Create a file named <code>main.cpp</code> and paste the C++ code above.</li>
-    <li>Create a CSV file (example below) and update the <code>CSV</code> filepath in <code>main.cpp</code>.</li>
-</ol>
-<p><strong>Example CSV (info.csv)</strong>:</p>
-<pre>
-Problem,Name,Department,Contact,Rating,Location
-Cardiology,Dr. A,Cardiology,01234567890,4.5,Dhaka Medical Center
-Diabetes,Dr. B,Endocrinology,01987654321,4.2,City Clinic
-</pre>
-<p>If you'd like, I can also create the <code>main.cpp</code> file and a sample <code>info.csv</code> and bundle them into a downloadable ZIP — tell me "create files".</p>
+### 4.4 Abstraction
+
+Definition: Hides implementation details, exposing only essential interfaces.
+Example:
+
+```C++
+class Recommendation {
+public:
+    virtual void display() = 0; // pure virtual
+};
+```
+
+### 4.5 Diamond Problem
+
+Definition: Occurs in multiple inheritance when two base classes inherit from the same ancestor.
+Example:
+
+```C++
+class Person {};
+class Contactable : virtual public Person {};
+class Identifiable : virtual public Person {};
+class Doctor : public Contactable, public Identifiable {};
+```
+
+### 4.6 Error Handling
+
+Definition: Use try-catch blocks to handle exceptions gracefully.
+Example:
+
+```C++
+try {
+    int x = stoi("abc"); // may throw invalid_argument
+} catch (exception &e) {
+    cout << "Error: " << e.what();
+}
+```
+
+### 4.7 File Handling / CSV
+
+Definition: Read/write data to files for persistent storage.
+Example:
+
+```C++
+ofstream fout("doctors.csv");
+fout << "Name,Specialty\n";
+fout << "Dr. A,Cardiology\n";
+fout.close();
+```
+
+### 4.8 Constructor & Destructor
+
+Definition: Constructors initialize objects; destructors clean up resources.
+Example:
+
+```C++
+class Doctor {
+public:
+    Doctor() { cout << "Doctor created\n"; }
+    ~Doctor() { cout << "Doctor destroyed\n"; }
+};
+```
+
+### 4.9 Friend Function
+
+Definition: Grants access to private/protected members of a class.
+Example:
+
+```C++
+class Doctor {
+    string name;
+    friend void showName(const Doctor& d);
+};
+void showName(const Doctor& d) { cout << d.name; }
+```
+
+### 4.10 Generic Function
+
+Definition: Template functions allow reusable code for multiple types.
+Example:
+
+```C++
+template <typename T>
+void showItem(T item) { cout << item << endl; }
+```
+
+## 5. Summary Table
+
+| Topic                    | Key Locations (Lines) | Key Classes/Functions                          |
+| ------------------------ | --------------------- | ---------------------------------------------- |
+| Encapsulation            | 15–110                | Person, Doctor, Admin, User                    |
+| Inheritance              | 25–65, 120–180        | Contactable, Identifiable, Doctor, Admin, User |
+| Polymorphism             | 15–110                | display()                                      |
+| Abstraction              | 15–110                | Recommendation (abstract base class)           |
+| Diamond Problem          | 25–65                 | Contactable, Identifiable                      |
+| Error Handling           | 320–360               | DataLoader::loadDoctors                        |
+| File Handling / CSV      | 320–360, 370–390      | DataLoader, saveDoctors                        |
+| Constructor & Destructor | 15–110                | Person, Doctor, Admin, User                    |
+| Friend Function          | 85–100                | getSpecialty, getDepartment                    |
+| Generic Function         | 110–120               | addItem, showAll                               |
+
+## 6. Conclusion
+
+The Doctor Recommendation System effectively demonstrates core OOP principles while providing a functional console-based application for managing and searching doctor information with file persistence.
