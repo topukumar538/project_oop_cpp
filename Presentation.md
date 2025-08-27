@@ -340,6 +340,20 @@ int main() {
 
 ```
 
+````csv
+
+Problem,Name,Department,Contact,Rating,Location
+chest pain,Dr. Ayesha Rahman,Cardiology,017XXXXXXXX,4.8,Dhaka
+chest pain,Dr. Tanvir Islam,Pulmonology,018XXXXXXXX,4.6,Rajshahi
+skin rash,Dr. Farhana Kabir,Dermatology,019XXXXXXXX,4.9,Chattogram
+skin rash,Dr. Imran Hossain,Dermatology,017YYYYYYYY,4.7,Sylhet
+headache,Dr. Mahmud Hasan,Neurology,016XXXXXXXX,4.7,Sylhet
+fever,Dr. Nusrat Jahan,General Medicine,015XXXXXXXX,4.5,Khulna
+
+`````
+
+
+
 ## 3. Program Functionality & UML
 
 The Doctor Recommendation System is a console-based C++ application with:
