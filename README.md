@@ -59,6 +59,8 @@
 <b>Topu</b>
 * Code Design and Functionality
 * Overall Code Work.
+* Error handling
+* Vector
 
 ---
 <div align="center">
