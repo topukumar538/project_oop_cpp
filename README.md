@@ -234,7 +234,10 @@ public:
 
     void admin1() {
         while (true) {
-            cout << "\n[Admin Menu] 1.show | 2.add | 3.save | 4.exit\n> ";
+            cout<<endl<<"============================================="<<endl;
+            cout<<"[Successfull].Welcome to Admin pannel."<<endl;
+            cout<<"============================================="<<endl;
+            cout << "\n[Admin Menu] 1.show | 2.add | 3.save | 4.exit\nYour Choice:  ";
             int cmd;
             cin >> cmd;     // get admin command
             cin.ignore();   // ignore leftover newline
@@ -282,7 +285,9 @@ public:
     void display() override {}
 
     void user1() {
-        cout << "Enter problem: ";
+        cout<<endl<<"============================================="<<endl;
+        cout<<"Welcome. Describe your problem below."<<endl;
+        cout << "Problem you are suffering: ";
         string s; getline(cin, s);       // get input problem
         s = toLower(s);                  // convert to lowercase
         bool found = false;
@@ -318,11 +323,13 @@ int main() {
     cin.ignore();
 
     if (mode == 2) {
+        cout<<endl<<"---------------------------------------------"<<endl;
+        cout<<endl<<"Entering to Admin pannel..."<<endl;
         cout << "Enter admin pin: ";
         int pin;
         cin >> pin;
         if (pin != 123) {  // check admin pin
-            cout << "Incorrect pin. Exiting.\n";
+            cout << "!!![ERROR].Incorrect pin. Try again with proper pin. Exiting....\n";
             return 0;
         }
         Admin admin(doctors, CSV);
@@ -337,6 +344,7 @@ int main() {
     }
     cout << "Goodbye! THANK YOU for using our system....\n";
 }
+
 
 ```
 
