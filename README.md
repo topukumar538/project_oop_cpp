@@ -41,6 +41,26 @@
 
 </div>
 
+## Program Contribution
+
+Saba
+* Class.
+* Friend Function.
+* Inheritance.
+* Encapsulation.
+* Generic class.
+
+Tahsin
+* Input-Output interface.
+* Diamond problem & Solve.
+* File handling via CSV for persistent storage.
+
+
+Topu
+* .
+* .
+* .
+
 ---
 <div align="center">
 
