@@ -596,16 +596,16 @@ void showItem(T item) { cout << item << endl; }
 
 | Topic                    | Key Locations (Lines) | Key Classes/Functions                          |
 | ------------------------ | --------------------- | ---------------------------------------------- |
-| Encapsulation            | 15–110                | Person, Doctor, Admin, User                    |
-| Inheritance              | 25–65, 120–180        | Contactable, Identifiable, Doctor, Admin, User |
-| Polymorphism             | 15–110                | display()                                      |
-| Abstraction              | 15–110                | Recommendation (abstract base class)           |
-| Diamond Problem          | 25–65                 | Contactable, Identifiable                      |
-| Error Handling           | 320–360               | DataLoader::loadDoctors                        |
-| File Handling / CSV      | 320–360, 370–390      | DataLoader, saveDoctors                        |
-| Constructor & Destructor | 15–110                | Person, Doctor, Admin, User                    |
-| Friend Function          | 85–100                | getSpecialty, getDepartment                    |
-| Generic Function         | 110–120               | addItem, showAll                               |
+| Encapsulation            | 14–116, 197–272       | Person, Doctor, Admin, User                    |
+| Inheritance              | 36–76, 116, 197–272   | Contactable, Identifiable, Doctor, Admin, User |
+| Polymorphism             | 14–272                | display()                                      |
+| Abstraction              | 14–18                 | Recommendation (abstract base class)           |
+| Diamond Problem          | 36–55                 | Contactable, Identifiable                      |
+| Error Handling           | 142–176, 291–298      | DataLoader::loadDoctors, main() try-catch      |
+| File Handling / CSV      | 142–176, 178–195, 239 | DataLoader, saveDoctors, Admin::admin1         |
+| Constructor & Destructor | 21–28, 58–66, 116, 200| Person, Doctor, Admin, User                    |
+| Friend Function          | 81–93                 | getSpecialty, getDepartment                    |
+| Generic Function         | 96–113                | addItem, showAll                               |
 
 ## 6. Conclusion
 
