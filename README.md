@@ -313,6 +313,8 @@ public:
 
     void user1() {
         cout<<endl<<"============================================="<<endl;
+        cout<<"Here are some illness: \n chest pain \n skin rash\n headache\n fever\n abdominal pain\n vomiting\n numbness\n breathlessness\n high fever\n persistent cough\n vision loss\n ear pain\n toothache\n joint pain\n back pain\n burn injury\n allergic reaction\n urinary pain\n pregnancy care\n";
+        cout<<" child fever\n skin infection\n stroke symptoms\n diabetes\n thyroid problem\n asthma\n gastric pain\n depression\n anxiety\n kidney stone\n liver disease\n mathabetha\n"<<endl;
         cout<<"Welcome. Describe your problem below."<<endl;
         cout << "Problem you are suffering: ";
         string s; getline(cin, s);       // get input problem
