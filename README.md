@@ -1,4 +1,4 @@
-# 🩺 Doctor Hunter
+# 🩺 Team name: Doctor Hunter
 
 ## 📁 Project Name: `project_oop_cpp`  
 ### 🎓 Course: Object-Oriented Programming in C++  
