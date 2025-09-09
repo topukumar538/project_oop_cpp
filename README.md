@@ -68,9 +68,17 @@ Topu
 
 # Doctor Recommendation System
 
-## 2. Project Summary
+## 2. Project Summary & UML
 
 A C++ console application that allows users to search for doctors by specialty, and enables admins to view, add, and save doctor details in a CSV file. Demonstrates object-oriented programming concepts like inheritance, polymorphism, abstraction, and file handling.
+</div>
+
+<div align="center">
+
+<img width="771" height="852" alt="1" src="https://github.com/user-attachments/assets/bb7a2a2b-0243-4214-bde8-7ac7f0a3271e" />
+<img width="710" height="791" alt="2" src="https://github.com/user-attachments/assets/d8246864-6738-4deb-b7ac-30eb4448681f" />
+<img width="617" height="297" alt="3" src="https://github.com/user-attachments/assets/16108286-2e54-4bd9-808b-4b0b425045d9" />
+
 </div>
 
 ### **Code:**
@@ -382,7 +390,7 @@ fever,Dr. Nusrat Jahan,General Medicine,015XXXXXXXX,4.5,Khulna
 
 
 
-## 3. Program Functionality & UML
+## 3. Program Functionality 
 
 The Doctor Recommendation System is a console-based C++ application with:
 
@@ -393,9 +401,6 @@ The Doctor Recommendation System is a console-based C++ application with:
 
 <div align="center">
 <img width="635" height="847" alt="0" src="https://github.com/user-attachments/assets/40bc096f-8691-4836-a233-d24e9c09dc71" />
-<img width="771" height="852" alt="1" src="https://github.com/user-attachments/assets/bb7a2a2b-0243-4214-bde8-7ac7f0a3271e" />
-<img width="710" height="791" alt="2" src="https://github.com/user-attachments/assets/d8246864-6738-4deb-b7ac-30eb4448681f" />
-<img width="617" height="297" alt="3" src="https://github.com/user-attachments/assets/16108286-2e54-4bd9-808b-4b0b425045d9" />
 
 </div>
 
