@@ -57,9 +57,8 @@
 
 
 <b>Topu</b>
-* .
-* .
-* .
+* Code Design and Functionality
+* Overall Code Work.
 
 ---
 <div align="center">
