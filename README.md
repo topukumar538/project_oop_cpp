@@ -48,7 +48,7 @@ Saba
 * Friend Function.
 * Inheritance.
 * Encapsulation.
-* Generic class.
+* Generic Function.
 
 Tahsin
 * Input-Output interface.
